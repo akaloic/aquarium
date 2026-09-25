@@ -1,0 +1,56 @@
+[package]
+name = "aquarium"
+version = "0.1.0"
+edition = "2024"
+description = "A photoreal, living aquarium that runs as your macOS wallpaper (Rust + Bevy)"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/akaloic/aquarium"
+homepage = "https://akaloic.github.io/aquarium/"
+readme = "README.md"
+keywords = ["bevy", "wallpaper", "aquarium", "macos", "rendering"]
+categories = ["rendering", "simulation"]
+publish = false
+
+[dependencies]
+bevy = { version = "0.19.1", features = [
+    "jpeg",
+    "pbr_light_textures",
+    "experimental_pbr_pcss",
+    "dfg_lut",
+    "bluenoise_texture",
+] }
+noise = "0.9.0"
+rand = "0.10.3"
+half = "2.7"
+# GPU texture formats (BC7/BC5/BC4), CPU encoder, cached on disk (textures.rs).
+block_compression = { version = "0.10", default-features = false, features = ["bc15", "bc7"] }
+# Simplification of the scanned rocks (scape/scans.rs).
+meshopt = "0.6"
+# Reading the scans without Bevy's glTF loader (same version as Bevy's).
+gltf = { version = "1.4", default-features = false, features = ["utils"] }
+# JPEG decoding off the asset server (same version as Bevy's).
+image = { version = "0.25", default-features = false, features = ["jpeg"] }
+
+# `--wallpaper`: put the window at the desktop level (AppKit).
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSGeometry"] }
+raw-window-handle = "0.6"
+
+# Keep dependencies optimized even in dev builds (Bevy is unusable at opt-level 0).
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+opt-level = 3
+debug = false
+
+# Shipping build: `cargo build --profile dist`
+[profile.dist]
+inherits = "release"
+lto = "fat"
+codegen-units = 1
+strip = true

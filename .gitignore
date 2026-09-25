@@ -1,0 +1,9 @@
+/target
+# CC0 assets downloaded by scripts/fetch_assets.sh
+/assets/models/
+/assets/textures/
+*.part
+# Local outputs (physics bench, captures, reference renders)
+/out/
+/docs/shots/
+.DS_Store

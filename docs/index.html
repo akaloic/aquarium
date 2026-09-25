@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aquarium — a living wallpaper for macOS</title>
+<meta name="description" content="A photoreal, living aquarium that runs as your macOS wallpaper. Real-time Rust + Bevy: volumetric water, caustics, schooling fish, a crab on inverse kinematics — and it sleeps when you're not looking.">
+<meta property="og:title" content="Aquarium — a living wallpaper for macOS">
+<meta property="og:description" content="Real-time, photoreal, written in Rust with Bevy. It sleeps when you're not looking.">
+<meta property="og:image" content="https://akaloic.github.io/aquarium/media/hero.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#030a14">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path d='M8 32c10-14 30-16 44-4l8-8v24l-8-8C38 48 18 46 8 32z' fill='%235fe1ff'/><circle cx='20' cy='30' r='3' fill='%23030a14'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 32c10-14 30-16 44-4l8-8v24l-8-8C38 48 18 46 8 32z"/></svg>Aquarium</a>
+  <div class="links">
+    <a href="#alive">Alive</a>
+    <a href="#light">Light</a>
+    <a href="#frame">A frame</a>
+    <a href="#energy">Energy</a>
+    <a href="#field">The field</a>
+    <a href="#tests">Tests</a>
+    <a class="gh" href="https://github.com/akaloic/aquarium"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="media/poster.jpg">
+    <source src="media/aquarium.mp4" type="video/mp4">
+  </video>
+  <div class="hero-shade"></div>
+  <div class="hero-content">
+    <p class="kicker">Rust · Bevy · Metal · macOS</p>
+    <h1>A living aquarium<br>on your desktop.</h1>
+    <p class="lede">Photoreal and real-time. It reacts to your cursor, feeds when you click, and sleeps when you're not looking. <em>This is not a video loop:</em> every frame is rendered, measured and tested.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/akaloic/aquarium">View on GitHub</a>
+      <a class="btn" href="#get">Get it</a>
+    </div>
+    <ul class="chips">
+      <li><b>≈ 22 ms</b> per frame at full resolution</li>
+      <li><b>0.76 W</b> of GPU when asleep</li>
+      <li><b>81 / 81</b> physics checks</li>
+    </ul>
+  </div>
+  <a class="scroll-hint" href="#alive" aria-label="Scroll down"><span></span></a>
+</header>
+
+<main>
+
+<!-- ============================================================ ALIVE -->
+<section id="alive" class="section">
+  <div class="wrap two">
+    <div>
+      <p class="eyebrow">01 · Alive</p>
+      <h2>Twenty fish, one crab, and nothing scripted.</h2>
+      <p>Neon tetras school tight, angelfish drift, clownfish stay near their anemones, discus hover. Their steering is smoothed until no frame shows a jerk. Before that, 60 simulated seconds of 20 fish contained <b>~42 000</b> abrupt changes of angular velocity; afterwards, <b>4</b> minor ones.</p>
+      <p>On the bottom, a red-claw crab walks sideways on eight legs driven by inverse kinematics. Feet stay planted, steps alternate, the knees bend to the side that has room, and it runs for a hideout it found by itself under a rock overhang. Flatfish bury themselves in a puff of sand. A starfish creeps on the glass.</p>
+      <p class="note">Below: a 2D sketch of the same steering rules, running in your browser. Move your cursor through the school; click to drop food.</p>
+    </div>
+    <figure class="clip">
+      <video autoplay muted loop playsinline preload="metadata" poster="media/crab.jpg"><source src="media/crab.mp4" type="video/mp4"></video>
+      <figcaption>The crab, real-time capture: IK legs, claws picking at the sand.</figcaption>
+    </figure>
+  </div>
+  <div class="wrap">
+    <div class="demo" id="school-demo">
+      <canvas id="school" aria-label="Interactive fish school: move the cursor to scare the fish, click to drop food"></canvas>
+      <div class="demo-hud"><span id="school-state">calm</span><span>move = scare · click = feed</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ LIGHT -->
+<section id="light" class="section alt">
+  <div class="wrap">
+    <p class="eyebrow">02 · Light you can see</p>
+    <h2>Volumetric water, ray-marched per pixel.</h2>
+    <div class="two">
+      <div>
+        <p>The water isn't a colour, it's a medium. For every pixel, a ray walks through the tank in steps of about 10 cm. At each step it asks how much of the lamp reaches that point. First, is a rock or a plant in the way, according to the lamp's shadow map? Then, what did the water surface do to that light on its way down? The answer is the same ripple pattern that paints the caustics on the floor, so the shafts and the light spots line up.</p>
+        <p>Only 4–6 steps per pixel would be far too few. The trick is to <b>jitter them</b>: every frame they start at a different offset, and the temporal anti-aliasing (TAA) blends frames together. A handful of long steps then looks like hundreds of short ones.</p>
+        <p class="note">Right: a 128×72 ray-marcher in your browser, using the aquarium shader's algorithm on spheres instead of scanned rocks. Play with the controls to see why the jitter and the accumulation matter.</p>
+      </div>
+      <div class="demo raymarch">
+        <canvas id="rm" width="128" height="72" aria-label="Live volumetric ray-marching demo"></canvas>
+        <div class="controls">
+          <label>Step length <input type="range" id="rm-step" min="0.04" max="0.3" step="0.01" value="0.1"><output id="rm-step-v">10 cm</output></label>
+          <label class="check"><input type="checkbox" id="rm-jitter" checked> Jitter the steps</label>
+          <label class="check"><input type="checkbox" id="rm-taa" checked> Accumulate frames (TAA)</label>
+          <label class="check"><input type="checkbox" id="rm-shadow" checked> Rock shadows</label>
+          <label class="check"><input type="checkbox" id="rm-shafts" checked> Surface shafts</label>
+          <p class="stat"><span id="rm-samples">–</span> samples per frame</p>
+        </div>
+      </div>
+    </div>
+    <div class="facts">
+      <div><b>0.2 mm</b><span>scan simplification tolerance, below a pixel: 448k → 285k triangles</span></div>
+      <div><b>4×</b><span>less GPU memory with BC7/BC5/BC4 textures, cached on disk</span></div>
+      <div><b>1 pass</b><span>of the render graph draws the caustics, no extra camera</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FRAME -->
+<section id="frame" class="section">
+  <div class="wrap">
+    <p class="eyebrow">03 · Anatomy of a frame</p>
+    <h2>Where 23 milliseconds go.</h2>
+    <p class="wide">Bevy's GPU timers return zero on Metal, so every effect was switched off in turn on the same frame, with baseline runs in between because a fanless Mac warms up. The water is a third of the frame. Its per-pixel set-up hid a surprise: it found where each ray leaves the box by testing six planes against each other. A classic slab test and a little hoisting gave back <b>1 ms</b>, with an unchanged image (54.5 dB, run-to-run noise is 50.8 dB).</p>
+    <div class="budget" id="budget">
+      <div class="budget-toggle" role="group" aria-label="Before or after">
+        <button data-mode="before">Before</button><button data-mode="after" class="on">After</button>
+      </div>
+      <div class="bar" id="budget-bar"></div>
+      <div class="scale"><span style="left:0">0 ms</span><span id="budget-60">↑ 16.7 ms: 60 fps at full resolution</span><span id="budget-total">22.3 ms</span></div>
+      <div class="budget-detail" id="budget-detail">Hover or tap a segment.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ RESOLUTION -->
+<section class="section alt">
+  <div class="wrap two">
+    <div>
+      <p class="eyebrow">04 · The change you never see</p>
+      <h2>Resolution moves only when nobody is watching.</h2>
+      <p>Changing the render resolution resets the temporal filters: a burst of grain, a jump in sharpness, the screen seems to "refresh". So the aquarium decides <b>behind its start-up curtain</b>. It runs a few dozen uncapped frames at full resolution, scales a cost model of the scene to this particular Mac, and picks the sharpest level that fits. The first frame you see is already the right one.</p>
+      <p>It can't keep measuring afterwards, and the chart shows why. Under vsync, Apple's GPU lowers its clock to fill each frame, so the load macOS reports sits near 80 % whatever the resolution. Only frames that really miss the refresh for 4 seconds count. The level is then adjusted by the smallest step, and better levels are applied only while the wallpaper sleeps or the window is hidden.</p>
+    </div>
+    <div class="dvfs">
+      <div class="dvfs-chart" id="dvfs"></div>
+      <p class="caption">Measured on an M4 under vsync: the GPU load reported by macOS (bars) against the frame's actual cost at full clock (line). Same reading, very different work.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ ENERGY -->
+<section id="energy" class="section">
+  <div class="wrap">
+    <p class="eyebrow">05 · It knows when to rest</p>
+    <h2>A wallpaper shouldn't cost like a game.</h2>
+    <p class="wide">Awake at 60 fps, it uses the GPU like a 3D game. So it's only awake for 30 seconds after your mouse crosses the desktop. The rest of the time it sleeps in slow motion, and it stops drawing entirely when windows cover it or the screen locks. Measured with the chip's own energy counters:</p>
+    <div class="watts" id="watts">
+      <div class="w" data-w="0.02"><span class="n">≈ 0</span><span class="u">W</span><p>Covered, locked or asleep<br><small>no frame drawn, clock stopped</small></p><i></i></div>
+      <div class="w" data-w="0.76"><span class="n">0.76</span><span class="u">W</span><p>Asleep, 9 fps slow motion<br><small>desktop alone: 0.25–0.5 W</small></p><i></i></div>
+      <div class="w" data-w="2.1"><span class="n">2.1</span><span class="u">W</span><p>Awake on battery, 30 fps<br><small>same definition as 60 fps</small></p><i></i></div>
+      <div class="w hot" data-w="12.5"><span class="n">12.5</span><span class="u">W</span><p>Awake at 60 fps, full screen<br><small>why it doesn't stay awake</small></p><i></i></div>
+    </div>
+    <div class="states">
+      <div class="state"><b>Awake</b><span>60 fps · real time</span></div>
+      <div class="arrow"><span>30 s without the mouse</span><span>mouse on the desktop · ⌃⌥⌘A</span></div>
+      <div class="state"><b>Asleep</b><span>9 fps · slow motion ×0.2</span></div>
+      <div class="arrow"><span>covered, locked, display off</span><span>visible again</span></div>
+      <div class="state"><b>Paused</b><span>0 frames · clock stopped</span></div>
+    </div>
+    <p class="note">Also: 30 fps on battery or in Low Power Mode, the thermal state tightens the budget before macOS throttles, one frame every 2 s below 30 % battery, and audio is disabled so no audio stream keeps the hardware awake.</p>
+  </div>
+</section>
+
+<!-- ============================================================ FIELD -->
+<section id="field" class="section alt">
+  <div class="wrap two">
+    <div>
+      <p class="eyebrow">06 · A map of every rock</p>
+      <h2>One distance field for everything that moves.</h2>
+      <p>At start-up the aquarium bakes the signed distance from every point of the tank to the nearest glass, sand, rock or branch: a 1 cm grid with exact point-triangle distances from the 340 000 triangles the GPU draws, in about 0.2 s. The fish avoid obstacles by following its gradient. The crab and flatfish walk on its zero surface, food sinks until it touches it, and the hideouts are found in it.</p>
+      <p>It also caught a layout mistake: three rocks sat 7–12 mm inside each other, and a quarter of the grass tufts grew inside stone. Rocks were nudged by a centimetre, and plants now slide to the nearest free spot once the field is known.</p>
+      <p class="note">Right: the real field, exported from the app, sliced 12 cm above the bottom of the tank. Hover to read distances; click to release a fish that steers by the gradient.</p>
+    </div>
+    <div class="demo field">
+      <canvas id="sdf" aria-label="Distance field of the aquarium decor, top view"></canvas>
+      <div class="demo-hud"><span id="sdf-read">hover the map</span><span><button id="sdf-view" class="link">front view</button></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ TESTS -->
+<section id="tests" class="section">
+  <div class="wrap">
+    <p class="eyebrow">07 · Tested like a physics engine</p>
+    <h2>81 checks, three frame rates, zero failures.</h2>
+    <p class="wide">A recorder logs every animal every frame for minutes of simulated time, with a scripted cursor, clicks and a scare every 20 seconds. A script then checks 81 criteria: never inside the decor, no teleports, no foot slipping, legs within reach, calm again within 3 s after a scare, hideout reached... It runs at 1/60 s, at 1/30 s, and with the irregular frame times of a real window. Here is what it found:</p>
+    <div class="bugs">
+      <div class="bug"><b>12 mm</b><p>The crab's carapace slid into a rock while walking along it: only its contact point had collision.</p></div>
+      <div class="bug"><b>56 %</b><p>of the time hidden, its knees poked through the ceiling of its hideout.</p></div>
+      <div class="bug"><b>2.5 cm</b><p>Crab and flatfish popped onto a pebble in a single frame.</p></div>
+      <div class="bug"><b>30 fps</b><p>The fish pitch limit broke when frames took twice as long.</p></div>
+    </div>
+    <div class="cadences"><span>1/60 s <b>81/81</b></span><span>1/30 s <b>81/81</b></span><span>irregular <b>81/81</b></span></div>
+  </div>
+</section>
+
+<!-- ============================================================ GALLERY -->
+<section class="section gallery-section">
+  <div class="gallery">
+    <a href="media/hero-4k.jpg"><img src="media/hero.jpg" alt="Full view of the aquarium" loading="lazy"></a>
+    <a href="media/close.jpg"><img src="media/close.jpg" alt="Closer view with anemones and clownfish" loading="lazy"></a>
+    <a href="media/inside.jpg"><img src="media/inside.jpg" alt="View from inside the water" loading="lazy"></a>
+    <a href="media/tank.jpg"><img src="media/tank.jpg" alt="The whole tank on its cabinet" loading="lazy"></a>
+  </div>
+</section>
+
+<!-- ============================================================ GET -->
+<section id="get" class="section alt">
+  <div class="wrap two">
+    <div>
+      <p class="eyebrow">Get it</p>
+      <h2>Three commands.</h2>
+      <p>macOS on Apple Silicon and <a href="https://rustup.rs">Rust</a>. The rocks and sand are CC0 scans from <a href="https://polyhaven.com">Poly Haven</a>, downloaded once (~61 MB). Everything else is procedural.</p>
+      <p>Then make it your wallpaper: it sits below your icons, on every Space, lets your clicks through, and asks for no permissions.</p>
+    </div>
+    <div class="code">
+      <pre id="install"><span class="c"># build and run</span>
+git clone https://github.com/akaloic/aquarium.git
+cd aquarium && ./scripts/fetch_assets.sh
+cargo run --release
+
+<span class="c"># as a live wallpaper</span>
+cargo build --release
+./target/release/aquarium --wallpaper &amp;</pre>
+      <button class="copy" data-copy="install">Copy</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>Code under MIT or Apache-2.0 · assets CC0 from Poly Haven · built with <a href="https://bevyengine.org">Bevy</a> · by <a href="https://github.com/akaloic">@akaloic</a></p>
+  <p><a href="https://github.com/akaloic/aquarium">github.com/akaloic/aquarium</a></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
